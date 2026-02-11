@@ -995,42 +995,45 @@ Roches Noires  Casablanca, Maroc";
                 const logoData = logoImgElement && logoImgElement.src ? logoImgElement.src : '';
                 
                 // vCard string with TEL formatted according to standards
-                let vCardData = "BEGIN:VCARD\r\n" +
-                    "VERSION:3.0\r\n" +
-                    "N:" + lastName + ";" + firstName + ";;;\r\n" +
-                    "FN:" + contactName + "\r\n" +
-                    "ORG:" + organization + "\r\n" +
-                    "TEL;type=CELL:" + formattedPhone + "\r\n" +
-                    "ADR;type=WORK:;;" + contactAddress + ";;;\r\n" +
-                    "EMAIL:" + contactEmail + "\r\n" +
-                    "URL:" + contactWebsite + "\r\n";
+                let vCardData = "BEGIN:VCARD
+" +
+                    "VERSION:3.0
+" +
+                    "N:" + lastName + ";" + firstName + ";;;
+" +
+                    "FN:" + contactName + "
+" +
+                    "ORG:" + organization + "
+" +
+                    "TEL;type=CELL:" + formattedPhone + "
+" +
+                    "ADR;type=WORK:;;" + contactAddress + ";;; 
+" +
+                    "EMAIL:" + contactEmail + "
+" +
+                    "URL:" + contactWebsite + "
+";
                     
                 // Try to add logo if available in the standalone mode
                 if (logoData && logoData.startsWith('data:')) {
                     try {
                         // Extract image type and data
-                        const matches = logoData.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
+                        const matches = logoData.match(/^data:image/([a-zA-Z]+);base64,(.+)$/);
                         if (matches && matches.length === 3) {
                             const imageType = matches[1].toUpperCase();
                             const base64Data = matches[2];
                             
                             // Always use JPEG format for better mobile compatibility
-                            vCardData += "PHOTO;ENCODING=b;TYPE=JPEG:" + base64Data + "\r\n";
-                        } else {
-                            // Add placeholder for better compatibility
-                            vCardData += "PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBxdWFsaXR5ID0gOTAK/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBVU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A+t6KKKACiiigAooooAKKKKACiiigAooooA//2Q==\r\n";
+                            vCardData += "PHOTO;ENCODING=b;TYPE=JPEG:" + base64Data + "
+";
                         }
                     } catch (e) {
-                        // Add placeholder if error
-                        vCardData += "PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBxdWFsaXR5ID0gOTAK/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBVU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A+t6KKKACiiigAooooAKKKKACiiigAooooA//2Q==\r\n";
+                        // Add placeholder if error - no photo
                     }
-                } else {
-                    // Add photo placeholder for better compatibility with mobile contacts apps
-                    vCardData += "PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBxdWFsaXR5ID0gOTAK/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBVU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A+t6KKKACiiigAooooAKKKKACiiigAooooA//2Q==\r\n";
-                    }
-                    
-                    vCardData += "END:VCARD";
-                    
+                }
+                
+                vCardData += "END:VCARD";
+                
                 // Create blob and URL
                 const blob = new Blob([vCardData], { type: 'text/vcard' });
                 const url = URL.createObjectURL(blob);
@@ -1038,11 +1041,11 @@ Roches Noires  Casablanca, Maroc";
                 // Create a link and trigger download
                 const fileName = firstName + '-' + lastName + '-Contact.vcf';
                 const link = document.createElement('a');
-                    link.href = url;
+                link.href = url;
                 link.download = fileName;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
                 
                 // For mobile devices, also open in new tab
                 const ua = navigator.userAgent.toLowerCase();
@@ -1053,7 +1056,7 @@ Roches Noires  Casablanca, Maroc";
                     }, 1000);
                 }
                 
-                    URL.revokeObjectURL(url);                    
+                URL.revokeObjectURL(url);                    
             } catch (e) {
                 console.error('vCard download error:', e);
                 alert('Could not download contact. Please try again or contact the site owner.');
